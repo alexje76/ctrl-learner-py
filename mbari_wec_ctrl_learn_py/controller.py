@@ -123,11 +123,11 @@ class TestController(Interface):
     #     # target_value = self.policy.target(data)
     #     pass  # remove if there's anything to do above
 
-    # def set_params(self):
-    #     """Use ROS2 declare_parameter and get_parameter to set policy params."""
-    #     self.declare_parameter('foo', self.policy.foo)
-    #     self.policy.foo = \
-    #         self.get_parameter('foo').get_parameter_value().double_value
+    def set_params(self):
+        """Use ROS2 declare_parameter and get_parameter to set policy params."""
+        self.declare_parameter('retLim', self.policy.retLim)
+        self.policy.retLim = \
+            self.get_parameter('retLim').get_parameter_value().double_value
 
         # recompute any dependent variables
         self.policy.update_params()
