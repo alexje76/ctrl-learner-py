@@ -8,7 +8,7 @@ package_name = 'mbari_wec_ctrl-learn_py'
 
 setup(
     name=package_name,
-    version='3.12', #Check that this is correct
+    version='3.12.3', #Check that this is correct
     packages=[f'{package_name}'],
     data_files=[
         ('share/ament_index/resource_index/packages',
