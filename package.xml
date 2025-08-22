@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>mbari_wec_template_py</name>
+  <name>mbari_wec_ctrl_learn_py</name>
   <version>0.0.0</version>
-  <description>MBARI Power Buoy Controller Template (python)</description>
-  <maintainer email="anderson@mbari.org">Michael Anderson</maintainer>
+  <description>MBARI Power Buoy Controller Learning file, likely a simple linear damping (python)</description>
+  <maintainer email="ajeagan@uw.org">Alex Eagan</maintainer>
   <license>Apache 2.0</license>
 
   <depend>buoy_interfaces</depend>

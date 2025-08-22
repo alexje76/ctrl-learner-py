@@ -33,12 +33,12 @@ class TestControlPolicy(object):
         pass  # remove if there's anything to set above
 
     # # Modify function inputs as desired
-    # def target(self, *args, **kwargs):  # noqa: D202
-    #     """Calculate target value from feedback inputs."""
+    def rftarget(self, range_finder):  # noqa: D202
+        """Calculate target value from feedback inputs."""
 
-    #     # secret sauce
+        range = range_finder
 
-    #     return 0.0  # obviously, modify to return proper target value
+        return range  # obviously, modify to return proper target value
 
     def __str__(self):
         return "Control"
@@ -96,7 +96,7 @@ class TestController(Interface):
 
     def spring_callback(self, data):
         """Provide feedback of '/spring_data' topic from Spring Controller."""
-        retraction = self.policy.range_finder
+        retraction = self.policy.rftarget(data.range_finder)
 
         if retraction > self.retLim: 
             self.send_pc_bias_curr_command(self.bias_curr_amps, blocking=False)
