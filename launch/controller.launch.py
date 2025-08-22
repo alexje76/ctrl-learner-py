@@ -19,7 +19,7 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 
-package_name = 'mbari_wec_ctrl-learn_py'
+package_name = 'mbari_wec_ctrl_learn_py'
 
 
 def generate_launch_description():

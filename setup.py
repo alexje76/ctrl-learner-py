@@ -4,7 +4,7 @@ import os
 from setuptools import setup
 
 
-package_name = 'mbari_wec_ctrl-learn_py'
+package_name = 'mbari_wec_ctrl_learn_py'
 
 setup(
     name=package_name,
