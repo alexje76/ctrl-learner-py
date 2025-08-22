@@ -99,7 +99,7 @@ class TestController(Interface):
         retraction = self.policy.rftarget(data.range_finder)
 
         if retraction > self.policy.retLim: 
-            self.send_pc_bias_curr_command(self.bias_curr_amps, blocking=False)
+            self.send_pc_bias_curr_command(self.policy.bias_curr_amps, blocking=False)
 
         # Update class variables, get control policy target, send commands, etc.
         # target_value = self.policy.target(data)
