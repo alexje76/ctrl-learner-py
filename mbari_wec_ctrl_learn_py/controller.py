@@ -98,7 +98,7 @@ class TestController(Interface):
         """Provide feedback of '/spring_data' topic from Spring Controller."""
         retraction = self.policy.rftarget(data.range_finder)
 
-        if retraction > self.retLim: 
+        if retraction > self.policy.retLim: 
             self.send_pc_bias_curr_command(self.bias_curr_amps, blocking=False)
 
         # Update class variables, get control policy target, send commands, etc.
