@@ -18,35 +18,38 @@ from buoy_api import Interface
 import rclpy
 
 
-class ControlPolicy(object):
+class TestControlPolicy(object):
 
     def __init__(self):
         # Define any parameter variables here
-        self.foo = 1.0
-
+        self.retLim = .65
+        self.bias_curr_amps = 14
         self.update_params()
 
     def update_params(self):
         """Update dependent variables after reading in params."""
-        self.bar = 10.0 * self.foo
+        # self.bar = 10.0 * self.foo
 
         pass  # remove if there's anything to set above
 
-    # Modify function inputs as desired
-    def target(self, *args, **kwargs):  # noqa: D202
-        """Calculate target value from feedback inputs."""
+    # # Modify function inputs as desired
+    # def target(self, *args, **kwargs):  # noqa: D202
+    #     """Calculate target value from feedback inputs."""
 
-        # secret sauce
+    #     # secret sauce
 
-        return 0.0  # obviously, modify to return proper target value
+    #     return 0.0  # obviously, modify to return proper target value
+
+    def __str__(self):
+        return "Control"
 
 
-class Controller(Interface):
+class TestController(Interface):
 
     def __init__(self):
-        super().__init__('controller')
+        super().__init__('testcontroller')
 
-        self.policy = ControlPolicy()
+        self.policy = TestControlPolicy()
         self.set_params()
 
         # set packet rates from controllers here
@@ -79,47 +82,52 @@ class Controller(Interface):
 
     # Delete any unused callback
 
-    def ahrs_callback(self, data):
-        """Provide feedback of '/ahrs_data' topic from XBowAHRS."""
-        # Update class variables, get control policy target, send commands, etc.
-        # target_value = self.policy.target(data)
-        pass  # remove if there's anything to do above
+    # def ahrs_callback(self, data):
+    #     """Provide feedback of '/ahrs_data' topic from XBowAHRS."""
+    #     # Update class variables, get control policy target, send commands, etc.
+    #     # target_value = self.policy.target(data)
+    #     pass  # remove if there's anything to do above
 
-    def battery_callback(self, data):
-        """Provide feedback of '/battery_data' topic from Battery Controller."""
-        # Update class variables, get control policy target, send commands, etc.
-        # target_value = self.policy.target(data)
-        pass  # remove if there's anything to do above
+    # def battery_callback(self, data):
+    #     """Provide feedback of '/battery_data' topic from Battery Controller."""
+    #     # Update class variables, get control policy target, send commands, etc.
+    #     # target_value = self.policy.target(data)
+    #     pass  # remove if there's anything to do above
 
     def spring_callback(self, data):
         """Provide feedback of '/spring_data' topic from Spring Controller."""
+        retraction = self.policy.range_finder
+
+        if retraction > self.retLim: 
+            self.send_pc_bias_curr_command(self.bias_curr_amps, blocking=False)
+
         # Update class variables, get control policy target, send commands, etc.
         # target_value = self.policy.target(data)
-        pass  # remove if there's anything to do above
+        # pass  # remove if there's anything to do above
 
-    def power_callback(self, data):
-        """Provide feedback of '/power_data' topic from Power Controller."""
-        # Update class variables, get control policy target, send commands, etc.
-        # target_value = self.policy.target(data)
-        pass  # remove if there's anything to do above
+    # def power_callback(self, data):
+    #     """Provide feedback of '/power_data' topic from Power Controller."""
+    #     # Update class variables, get control policy target, send commands, etc.
+    #     # target_value = self.policy.target(data)
+    #     pass  # remove if there's anything to do above
 
-    def trefoil_callback(self, data):
-        """Provide feedback of '/trefoil_data' topic from Trefoil Controller."""
-        # Update class variables, get control policy target, send commands, etc.
-        # target_value = self.policy.target(data)
-        pass  # remove if there's anything to do above
+    # def trefoil_callback(self, data):
+    #     """Provide feedback of '/trefoil_data' topic from Trefoil Controller."""
+    #     # Update class variables, get control policy target, send commands, etc.
+    #     # target_value = self.policy.target(data)
+    #     pass  # remove if there's anything to do above
 
-    def powerbuoy_callback(self, data):
-        """Provide feedback of '/powerbuoy_data' topic -- Aggregated data from all topics."""
-        # Update class variables, get control policy target, send commands, etc.
-        # target_value = self.policy.target(data)
-        pass  # remove if there's anything to do above
+    # def powerbuoy_callback(self, data):
+    #     """Provide feedback of '/powerbuoy_data' topic -- Aggregated data from all topics."""
+    #     # Update class variables, get control policy target, send commands, etc.
+    #     # target_value = self.policy.target(data)
+    #     pass  # remove if there's anything to do above
 
-    def set_params(self):
-        """Use ROS2 declare_parameter and get_parameter to set policy params."""
-        self.declare_parameter('foo', self.policy.foo)
-        self.policy.foo = \
-            self.get_parameter('foo').get_parameter_value().double_value
+    # def set_params(self):
+    #     """Use ROS2 declare_parameter and get_parameter to set policy params."""
+    #     self.declare_parameter('foo', self.policy.foo)
+    #     self.policy.foo = \
+    #         self.get_parameter('foo').get_parameter_value().double_value
 
         # recompute any dependent variables
         self.policy.update_params()
@@ -127,8 +135,8 @@ class Controller(Interface):
 
 def main():
     rclpy.init()
-    controller = Controller()
-    rclpy.spin(controller)
+    controller = TestController()
+    controller.spin()
     rclpy.shutdown()
 
 
